@@ -1,0 +1,26 @@
+[
+  {
+    "source": "unknown",
+    "ai_probability": 0,
+    "category": "unknown",
+    "feedback_type": "certain_real",
+    "timestamp": "2025-11-02T13:57:12.575Z"
+  },
+  {
+    "source": "frame0.jpg",
+    "ai_probability": 0.8290000000000001,
+    "category": "unknown",
+    "feedback_type": "certain_real",
+    "timestamp": "2025-11-03T10:24:36.759Z"
+  },
+  {
+    "url": "text:sium...",
+    "ai_probability": 0.465,
+    "feedback_type": "false_positive"
+  },
+  {
+    "url": "text:aa...",
+    "ai_probability": 0.875,
+    "feedback_type": "false_positive"
+  }
+]
