@@ -1,10 +1,10 @@
 
 document.getElementById("open-home").addEventListener("click", () => {
-  chrome.tabs.create({ url: "http://127.0.0.1:8000/" });
+  chrome.tabs.create({ url: "https://detectionnet.onrender.com/" });
 });
 
 document.getElementById("open-dashboard").addEventListener("click", () => {
-  chrome.tabs.create({ url: "http://127.0.0.1:8000/dashboard" });
+  chrome.tabs.create({ url: "https://detectionnet.onrender.com/dashboard" });
 });
 
 

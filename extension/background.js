@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
   if (msg.action === "fetch_analysis") {
     try {
       let endpoint = msg.type === "image" ? "analyze" : "analyze_text";
-      const response = await fetch(`http://127.0.0.1:8000/api/${endpoint}`, {
+      const response = await fetch(`https://detectionnet.onrender.com/api/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(

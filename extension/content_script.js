@@ -4,7 +4,7 @@
 console.log("🔍 DetectionNet content script attivo!");
 
 // Configurazione base
-const API_URL = "http://127.0.0.1:8000/api/analyze";  // backend locale
+const API_URL = "https://detectionnet.onrender.com/api/analyze";  // backend Online
 const analyzedImages = new Set(); // evita doppie analisi
 
 let selectedElement = null;
@@ -218,7 +218,7 @@ async function analyzeTextAutomatically() {
   console.log(`🧠 Analisi automatica testo (${words.length} parole, limitato a ${MAX_WORDS})`);
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/analyze_text", {
+    const response = await fetch("https://detectionnet.onrender.com/api/analyze_text", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: limitedText }),
@@ -297,7 +297,7 @@ function startAutoTextAnalysis() {
   }
 
   // 🔄 Chiamata API al backend
-  fetch("http://127.0.0.1:8000/api/analyze_text", {
+  fetch("https://detectionnet.onrender.com/api/analyze_text", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text: limitedText }),
@@ -485,7 +485,7 @@ function createAnalyzeBadge(element, type, content) {
     badge.style.cursor = "default";
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/analyze", {
+      const res = await fetch("https://detectionnet.onrender.com/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: content })
@@ -605,7 +605,7 @@ async function analyzeSingle(el) {
       formData.append("text_input", src);
     }
 
-    const res = await fetch("http://127.0.0.1:8000/api/upload", {
+    const res = await fetch("https://detectionnet.onrender.com/api/upload", {
       method: "POST",
       body: formData
     });
