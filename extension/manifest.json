@@ -1,0 +1,33 @@
+
+{
+  "manifest_version": 3,
+  "name": "DetectionNet AI Detector",
+  "version": "1.0",
+  "description": "Rileva contenuti AI e invia risultati al backend DetectionNet.",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*/*",
+    "http://127.0.0.1:8000/*",
+    "http://localhost:8000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Detector"
+  }
+}

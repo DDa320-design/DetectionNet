@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>DetectionNet — Home</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>🧠 DetectionNet AI Classifier</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Carica un contenuto per l’analisi</h2>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+      <div class="upload-section">
+        <input type="file" id="fileInput" name="file" accept="image/*,video/*,audio/*" />
+        <textarea id="textInput" name="text_input" placeholder="Oppure incolla un testo (max 500 parole)..."></textarea>
+      </div>
+      <button type="submit">Analizza</button>
+    </form>
+
+    <div id="resultBox" class="hidden">
+      <h3>🧾 Risultato</h3>
+      <div id="mediaPreview"></div>
+      <p id="resultText"></p>
+    </div>
+  </main>
+
+  <!-- ======= SEGNALAZIONE ======= -->
+    <section id="feedback-section" class="hidden" style="margin-top:16px;">
+      <h3>Segnala questo contenuto</h3>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+        <button class="feedback-btn" data-feedback="possible_ai" style="background:#ffc107;color:#000;padding:8px 10px;border-radius:8px;border:none;">Possibile AI</button>
+        <button class="feedback-btn" data-feedback="possible_real" style="background:#ffc107;color:#000;padding:8px 10px;border-radius:8px;border:none;">Possibile Reale</button>
+        <button class="feedback-btn" data-feedback="certain_ai" style="background:#dc3545;color:#fff;padding:8px 10px;border-radius:8px;border:none;">Certamente AI</button>
+        <button class="feedback-btn" data-feedback="certain_real" style="background:#28a745;color:#fff;padding:8px 10px;border-radius:8px;border:none;">Certamente Reale</button>
+      </div>
+    </section>
+
+    <!-- ======= NEWS (scrollabile) ======= -->
+    <section id="news-section" style="margin-top:22px;">
+      <h3>📰 News sull'AI</h3>
+      <div id="news-list" style="height:180px; overflow-y:auto; border:1px solid #e6e6e6; padding:8px; border-radius:8px; background:#fafafa;"></div>
+    </section>
+
+  <script>
+  const form = document.getElementById("uploadForm");
+  const resultBox = document.getElementById("resultBox");
+  const preview = document.getElementById("mediaPreview");
+  const resultText = document.getElementById("resultText");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const file = document.getElementById("fileInput").files[0];
+    const text = document.getElementById("textInput").value;
+
+    const formData = new FormData();
+    if (file) formData.append("file", file);
+    else if (text.trim()) formData.append("text_input", text);
+    else return alert("Seleziona un file o inserisci un testo!");
+
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    const data = await res.json();
+
+    resultBox.classList.remove("hidden");
+    preview.innerHTML = "";
+
+    if (file && file.type.startsWith("image")) {
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(file);
+      img.style.maxWidth = "250px";
+      img.style.borderRadius = "10px";
+      preview.appendChild(img);
+    } else if (file && file.type.startsWith("video")) {
+      const vid = document.createElement("video");
+      vid.src = URL.createObjectURL(file);
+      vid.controls = true;
+      vid.width = 250;
+      preview.appendChild(vid);
+    } else if (file && file.type.startsWith("audio")) {
+      const aud = document.createElement("audio");
+      aud.src = URL.createObjectURL(file);
+      aud.controls = true;
+      preview.appendChild(aud);
+    } else {
+      const t = document.createElement("p");
+      t.innerText = text.slice(0, 200) + (text.length > 200 ? "..." : "");
+      preview.appendChild(t);
+    }
+
+    const percent = (data.ai_probability * 100).toFixed(1);
+    resultText.innerHTML = `<b>${data.category}</b> — Probabilità AI: ${percent}%`;
+  });
+  </script>
+  <script src="/static/home.js"></script>
+</body>
+</html>

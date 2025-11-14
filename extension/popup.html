@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>DetectionNet</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      width: 240px;
+      text-align: center;
+      padding: 10px;
+      background: #f9f9f9;
+    }
+
+    h3 {
+      color: #007bff;
+      margin-bottom: 6px;
+    }
+
+    p {
+      font-size: 13px;
+      color: #555;
+    }
+
+    button, select {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    select {
+      background: #fff;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+
+    #status {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h3>DetectionNet</h3>
+  <p>Analisi AI automatica o manuale</p>
+
+  <label for="mode">Modalità:</label>
+  <select id="mode">
+    <option value="auto">Automatica (pagina intera)</option>
+    <option value="semi">Semi-Automatica (clic su "Analizza")</option>
+    <option value="manual">Manuale (solo contenuto selezionato)</option>
+  </select>
+
+  <button id="analyze-selected">🔍 Analizza contenuto selezionato</button>
+  <button id="open-home">🏠 Apri Home</button>
+  <button id="open-dashboard">📊 Apri Dashboard</button>
+
+  <div id="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

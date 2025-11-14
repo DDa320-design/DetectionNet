@@ -1,0 +1,116 @@
+/*  Dashboard */
+body {
+  font-family: system-ui, sans-serif;
+  margin: 2rem;
+  background: #f7f7f7;
+  color: #333;
+}
+
+h1 {
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+canvas {
+  max-width: 700px;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+img {
+  border-radius: 6px;
+}
+
+/*  Home Page */
+
+header {
+  background: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  padding: 1em 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  margin-bottom: 2em;
+}
+
+header h1 {
+  font-size: 1.4em;
+  color: #333;
+}
+
+nav a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+}
+
+.container {
+  padding: 2em;
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  margin-top: 2em;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+#resultBox {
+  margin-top: 20px;
+  background: #f9fafc;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>DetectionNet Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --fg: #111;
+      --accent: #3b82f6;
+      --card-bg: #fff;
+      --border: #e5e7eb;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-weight: 600;
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 28px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: center;
+      min-width: 160px;
+    }
+
+    .stat-card h2 {
+      font-size: 1.6rem;
+      color: var(--accent);
+      margin: 0;
+    }
+
+    .stat-card p {
+      margin: 4px 0 0 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    canvas {
+      max-width: 720px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    h3 {
+      margin-top: 40px;
+      font-weight: 500;
+      font-size: 1.2rem;
+    }
+
+    .recent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .thumb {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: transform 0.15s ease;
+    }
+
+    .thumb:hover {
+      transform: translateY(-3px);
+    }
+
+    .thumb img {
+      width: 64px;
+      height: 64px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+
+    .thumb-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .prob {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .time {
+      color: #777;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 DetectionNet Dashboard</h1>
+
+  <div class="stats">
+    <div class="stat-card">
+      <h2 id="count">0</h2>
+      <p>Analisi oggi</p>
+    </div>
+    <div class="stat-card">
+      <h2 id="avg">0%</h2>
+      <p>Media probabilità AI</p>
+    </div>
+  </div>
+
+  <canvas id="chart" width="720" height="300"></canvas>
+
+  <h3>🕓 Ultime rilevazioni</h3>
+  <div class="recent-grid" id="recent"></div>
+
+  <script>
+  async function loadData() {
+    try {
+      const res = await fetch("/api/stats");
+      const data = await res.json();
+      console.log("📥 Dati ricevuti:", data);
+
+      // Aggiorna i contatori
+      document.getElementById("count").textContent = data.daily.today_count;
+      document.getElementById("avg").textContent = (data.daily.average_probability * 100).toFixed(1) + "%";
+
+      // Mostra immagini recenti
+      const container = document.getElementById("recent");
+      container.innerHTML = "";
+      data.recent.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "thumb";
+        div.innerHTML = `
+          <img src="${item.url}" alt="img" />
+          <div class="thumb-info">
+            <div class="prob">${(item.ai_probability * 100).toFixed(1)}%</div>
+            <div class="time">${new Date(item.timestamp).toLocaleTimeString()}</div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      // Grafico
+      const ctx = document.getElementById("chart").getContext("2d");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: data.recent.map(x => new Date(x.timestamp).toLocaleTimeString()),
+          datasets: [{
+            label: "Probabilità AI",
+            data: data.recent.map(x => x.ai_probability),
+            fill: true,
+            borderColor: "rgba(59, 130, 246, 0.8)",
+            backgroundColor: "rgba(59, 130, 246, 0.15)",
+            tension: 0.3,
+            pointRadius: 3
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 1,
+              ticks: { stepSize: 0.2 }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    } catch (err) {
+      console.error("❌ Errore caricamento dati:", err);
+    }
+  }
+
+  loadData();
+  // Aggiornamento automatico ogni 30 secondi
+  setInterval(loadData, 30000);
+  </script>
+</body>
+</html>
