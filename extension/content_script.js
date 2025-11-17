@@ -254,87 +254,87 @@ function initLazyDetection() {
 }
 
 
-// Analisi automatica del testo all’avvio della modalità auto
-// 🧠 Analisi automatica del testo con evidenziazione
-function startAutoTextAnalysis() {
-  const text = getVisibleText();
-  if (!text) return;
+// // Analisi automatica del testo all’avvio della modalità auto
+// // 🧠 Analisi automatica del testo con evidenziazione
+// function startAutoTextAnalysis() {
+//   const text = getVisibleText();
+//   if (!text) return;
 
-  const words = text.split(/\s+/);
-  const limitedText = words.slice(0, MAX_WORDS).join(" ");
+//   const words = text.split(/\s+/);
+//   const limitedText = words.slice(0, MAX_WORDS).join(" ");
 
-  console.log(`🧠 Analisi automatica testo (${words.length} parole, limitato a ${MAX_WORDS})`);
+//   console.log(`🧠 Analisi automatica testo (${words.length} parole, limitato a ${MAX_WORDS})`);
 
-  // 🟡 Evidenziazione del testo analizzato
-  const highlightColor = "rgba(255, 255, 0, 0.3)";
-  const highlightedNodes = [];
+//   // 🟡 Evidenziazione del testo analizzato
+//   const highlightColor = "rgba(255, 255, 0, 0.3)";
+//   const highlightedNodes = [];
 
-  // Seleziona nodi di testo visibili e applica evidenziazione
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-  let totalWords = 0;
-  while (walker.nextNode()) {
-    const node = walker.currentNode;
-    const parent = node.parentNode;
-    const content = node.nodeValue.trim();
+//   // Seleziona nodi di testo visibili e applica evidenziazione
+//   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+//   let totalWords = 0;
+//   while (walker.nextNode()) {
+//     const node = walker.currentNode;
+//     const parent = node.parentNode;
+//     const content = node.nodeValue.trim();
 
-    if (content && content.length > 20) {
-      const wordsInNode = content.split(/\s+/);
-      totalWords += wordsInNode.length;
-      if (totalWords > MAX_WORDS) break;
+//     if (content && content.length > 20) {
+//       const wordsInNode = content.split(/\s+/);
+//       totalWords += wordsInNode.length;
+//       if (totalWords > MAX_WORDS) break;
 
-      const span = document.createElement("span");
-      span.textContent = content;
-      span.style.backgroundColor = highlightColor;
-      span.style.borderRadius = "3px";
-      span.style.transition = "background-color 1s ease";
+//       const span = document.createElement("span");
+//       span.textContent = content;
+//       span.style.backgroundColor = highlightColor;
+//       span.style.borderRadius = "3px";
+//       span.style.transition = "background-color 1s ease";
 
-      const parent = node.parentNode;
-      if (parent) {
-        parent.replaceChild(span, node);
-        highlightedNodes.push(span);
-      }
-    }
-  }
+//       const parent = node.parentNode;
+//       if (parent) {
+//         parent.replaceChild(span, node);
+//         highlightedNodes.push(span);
+//       }
+//     }
+//   }
 
-  // 🔄 Chiamata API al backend
-  fetch("https://detectionnet.onrender.com/api/analyze_text", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: limitedText }),
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log("📊 Risultato analisi testo:", data);
+//   // 🔄 Chiamata API al backend
+//   fetch("https://detectionnet.onrender.com/api/analyze_text", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ text: limitedText }),
+//   })
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log("📊 Risultato analisi testo:", data);
 
-      // Mostra banner discreto con risultato
-      const banner = document.createElement("div");
-      banner.textContent = `🧠 Testo analizzato — AI: ${(data.ai_probability * 100).toFixed(1)}%`;
-      banner.style.position = "fixed";
-      banner.style.bottom = "10px";
-      banner.style.right = "10px";
-      banner.style.background = "rgba(0,0,0,0.7)";
-      banner.style.color = "white";
-      banner.style.padding = "6px 12px";
-      banner.style.borderRadius = "8px";
-      banner.style.fontSize = "13px";
-      banner.style.zIndex = "9999";
-      document.body.appendChild(banner);
-      setTimeout(() => banner.remove(), 5000);
-    })
-    .catch(err => console.error("❌ Errore analisi testo:", err))
-    .finally(() => {
-      // 🔄 Dopo 6 secondi, rimuove gradualmente l’evidenziazione
-      setTimeout(() => {
-        highlightedNodes.forEach(span => {
-          span.style.backgroundColor = "transparent";
-          setTimeout(() => {
-            const textNode = document.createTextNode(span.textContent);
-            span.parentNode.replaceChild(textNode, span);
-          }, 800);
-        });
-      }, 6000);
-    });
-}
+//       // Mostra banner discreto con risultato
+//       const banner = document.createElement("div");
+//       banner.textContent = `🧠 Testo analizzato — AI: ${(data.ai_probability * 100).toFixed(1)}%`;
+//       banner.style.position = "fixed";
+//       banner.style.bottom = "10px";
+//       banner.style.right = "10px";
+//       banner.style.background = "rgba(0,0,0,0.7)";
+//       banner.style.color = "white";
+//       banner.style.padding = "6px 12px";
+//       banner.style.borderRadius = "8px";
+//       banner.style.fontSize = "13px";
+//       banner.style.zIndex = "9999";
+//       document.body.appendChild(banner);
+//       setTimeout(() => banner.remove(), 5000);
+//     })
+//     .catch(err => console.error("❌ Errore analisi testo:", err))
+//     .finally(() => {
+//       // 🔄 Dopo 6 secondi, rimuove gradualmente l’evidenziazione
+//       setTimeout(() => {
+//         highlightedNodes.forEach(span => {
+//           span.style.backgroundColor = "transparent";
+//           setTimeout(() => {
+//             const textNode = document.createTextNode(span.textContent);
+//             span.parentNode.replaceChild(textNode, span);
+//           }, 800);
+//         });
+//       }, 6000);
+//     });
+// }
 
 // Rileva nuove immagini (solo in modalità auto)
 const mutationObserver = new MutationObserver(() => {
@@ -403,22 +403,22 @@ function detectElementsForSemiAuto() {
     createAnalyzeBadge(img, "image", img.src);
   });
 
-  paragraphs.forEach(p => {
-    if (p.dataset.detectionAttached) return;
-    // sample length check
-    const words = p.innerText.trim().split(/\s+/).length;
-    if (words < 5 || words > 80) {
-      p.dataset.detectionAttached = "skipped";
-      return;
-    }
-    if (isSmallOrIcon(p)) {
-      p.dataset.detectionAttached = "skipped";
-      return;
-    }
-    p.dataset.detectionAttached = true;
-    const sampleText = p.innerText.slice(0, 200);
-    createAnalyzeBadge(p, "text", sampleText);
-  });
+  // paragraphs.forEach(p => {
+  //   if (p.dataset.detectionAttached) return;
+  //   // sample length check
+  //   const words = p.innerText.trim().split(/\s+/).length;
+  //   if (words < 5 || words > 80) {
+  //     p.dataset.detectionAttached = "skipped";
+  //     return;
+  //   }
+  //   if (isSmallOrIcon(p)) {
+  //     p.dataset.detectionAttached = "skipped";
+  //     return;
+  //   }
+  //   p.dataset.detectionAttached = true;
+  //   const sampleText = p.innerText.slice(0, 200);
+  //   createAnalyzeBadge(p, "text", sampleText);
+  // });
 }
 
 function activateSemiAutomaticMode() {
