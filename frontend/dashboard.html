@@ -8,14 +8,16 @@
 
 </head>
 <body>
-  <header>
-    <h1>📊 DetectionNet Dashboard</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/dashboard">Dashboard</a>
-    </nav>
-    <button id="backBtn">⬅ Indietro</button>
-  </header>
+  <header class="dash-header">
+  <button id="backBtn" class="back-btn">⬅ Indietro</button>
+
+  <h1 class="dash-title">📊 DetectionNet Dashboard</h1>
+
+  <nav class="dash-nav">
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+  </nav>
+</header>
 
   <script>
     document.getElementById("backBtn").addEventListener("click", () => {
