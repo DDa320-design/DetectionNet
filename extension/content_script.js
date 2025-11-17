@@ -250,7 +250,7 @@ const observer = new IntersectionObserver((entries) => {
 
 function initLazyDetection() {
     document.querySelectorAll("img").forEach(img => observer.observe(img));
-    startAutoTextAnalysis();
+    //startAutoTextAnalysis();
 }
 
 
@@ -388,8 +388,8 @@ function detectElementsForSemiAuto() {
   console.log("🟡 detectElementsForSemiAuto() running...");
 
   const images = Array.from(document.querySelectorAll("img"));
-  const paragraphs = Array.from(document.querySelectorAll("p, span, .article, .post, .content"))
-    .filter(p => p.innerText && p.innerText.trim().length > 20);
+  // const paragraphs = Array.from(document.querySelectorAll("p, span, .article, .post, .content"))
+  //   .filter(p => p.innerText && p.innerText.trim().length > 20);
 
   images.forEach(img => {
     // skip se già processata o non valida
@@ -524,30 +524,7 @@ function createAnalyzeBadge(element, type, content) {
 }
 
 
-// ======================================
-// 🔍 Rilevamento automatico contenuti
-// ======================================
 
-function detectElementsForSemiAuto() {
-  const images = document.querySelectorAll("img");
-  const paragraphs = Array.from(document.querySelectorAll("p, span"))
-    .filter(p => p.innerText.split(" ").length >= 5 && p.innerText.split(" ").length <= 40);
-
-  images.forEach(img => {
-    if (!img.dataset.detectionAttached) {
-      img.dataset.detectionAttached = true;
-      createAnalyzeBadge(img, "image", img.src);
-    }
-  });
-
-  paragraphs.forEach(p => {
-    if (!p.dataset.detectionAttached) {
-      p.dataset.detectionAttached = true;
-      const sampleText = p.innerText.slice(0, 80);
-      createAnalyzeBadge(p, "text", sampleText);
-    }
-  });
-}
 
 
 
