@@ -126,7 +126,29 @@
   </style>
 </head>
 <body>
-  <h1>📊 DetectionNet Dashboard</h1>
+  <header>
+    <h1>📊 DetectionNet Dashboard</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+    <button id="backBtn" style="
+      margin-top:10px;
+      padding:6px 12px;
+      background:#3b82f6;
+      color:white;
+      border:none;
+      border-radius:6px;
+      font-size:14px;
+      cursor:pointer;
+    ">⬅ Indietro</button>
+  </header>
+
+  <script>
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.location.href = "/";
+    });
+  </script>
 
   <div class="stats">
     <div class="stat-card">
