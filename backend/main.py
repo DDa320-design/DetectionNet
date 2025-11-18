@@ -96,10 +96,10 @@ def detect_image(url: str):
         # res = r.json()
 
         
-        API_KEY = "8rZ1V24uaHg7ExJwCfNDmGHzR3QrgkRvBrgz8LlO0a40d0f4"  # Winston AI
-        endpoint = "https://api.gowinston.ai/v2/image-detection"
-        # API_KEY = "Nothing"
-        # endpoint = "https://api-inference.huggingface.co/models/umm-maybe/AI-image-detector"
+        # API_KEY = "8rZ1V24uaHg7ExJwCfNDmGHzR3QrgkRvBrgz8LlO0a40d0f4"  # Winston AI
+        # endpoint = "https://api.gowinston.ai/v2/image-detection"
+        API_KEY = "Nothing"
+        endpoint = "https://api-inference.huggingface.co/models/umm-maybe/AI-image-detector"
 
         payload = {
             "url": url,
